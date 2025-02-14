@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Button Demo with Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            text-align: center;
+        }
+        .card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .card p {
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Button Demo with Cards</h1>
+    <button onclick="fetchProducts()">Fetch Products API</button>
+    <button onclick="fetchSweets()">Fetch Sweets API</button>
+    <button onclick="fetchRestaurants()">Fetch Restaurants API</button>
+    <button onclick="fetchUnavailable()">Unavailable API</button>
+
+    <div id="output"></div>
+
+    <script>
+        // Helper function to create a card for each API item
+        function createCard(title, description, imageUrl) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = title;
+
+            const h3 = document.createElement('h3');
+            h3.textContent = title;
+
+            const p = document.createElement('p');
+            p.textContent = description;
+
+            card.appendChild(img);
+            card.appendChild(h3);
+            card.appendChild(p);
+
+            return card;
+        }
+
+        // FakeStore API
+        function fetchProducts() {
+            const apiUrl = 'https://node-day-1-473t.onrender.com/products'; // FakeStore API URL
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').innerHTML = ''; // Clear previous data
+                    data.forEach(item => {
+                        const card = createCard(item.title, item.description, item.image);
+                        document.getElementById('output').appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('output').innerText = `Error fetching products: ${error.message}`;
+                });
+        }
+
+        // Sweets API
+        function fetchSweets() {
+            const apiUrl = 'https://node-day-1-473t.onrender.com/sweets'; // Replace with your Sweets API URL
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').innerHTML = ''; // Clear previous data
+                    data.forEach(item => {
+                        const card = createCard(item.name, item.description, item.image);
+                        document.getElementById('output').appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('output').innerText = `Error fetching sweets: ${error.message}`;
+                });
+        }
+
+        // Restaurants API
+        function fetchRestaurants() {
+            const apiUrl = 'https://node-day-1-473t.onrender.com/restaurants'; // Replace with your Restaurants API URL
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').innerHTML = ''; // Clear previous data
+                    data.forEach(item => {
+                        const card = createCard(item.name, item.description, item.image);
+                        document.getElementById('output').appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('output').innerText = `Error fetching restaurants: ${error.message}`;
+                });
+        }
+
+        // Unavailable API (Simulates a failed request)
+        function fetchUnavailable() {
+            const apiUrl = 'https://node-day-1-473t.onrender.com/'; // Non-existent API URL for testing
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('output').innerHTML = ''; // Clear previous data
+                    data.forEach(item => {
+                        const card = createCard(item.name, item.description, item.image);
+                        document.getElementById('output').appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    document.getElementById('output').innerText = `API unavailable: ${error.message}`;
+                });
+        }
+    </script>
+</body>
+</html>
